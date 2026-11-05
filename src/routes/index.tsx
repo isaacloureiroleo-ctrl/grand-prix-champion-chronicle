@@ -74,7 +74,7 @@ function Index() {
         </div>
       </section>
 
-      <section id="anos" className="mx-auto max-w-6xl px-6 pb-20 pr-16">
+      <section id="anos" className="mx-auto max-w-6xl px-6 pb-20 pr-24">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-3xl">TODOS OS ANOS</h2>
           <input

@@ -114,7 +114,7 @@ function Season() {
         </p>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 pb-12 pr-16">
+      <section className="mx-auto max-w-5xl px-6 pb-12 pr-24">
         <h2 className="mb-6 font-display text-3xl">CLASSIFICAÇÃO FINAL</h2>
         <Standings year={c.year} />
       </section>
