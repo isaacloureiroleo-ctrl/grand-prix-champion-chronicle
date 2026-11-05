@@ -61,12 +61,17 @@ export function brazilTeams() {
   const m = new Map<string, { team: string; from: number; to: number; drivers: Set<string> }>();
   for (const d of brazilDrivers) {
     for (const part of d.teams.split("; ")) {
-      const [team, span] = part.split(" (");
-      const [from, to] = (span ?? "").replace(")", "").split("–");
-      if (!from) continue;
-      const e = m.get(team) ?? { team, from: +from, to: +to, drivers: new Set<string>() };
-      e.from = Math.min(e.from, +from);
-      e.to = Math.max(e.to, +to);
+      const open = part.indexOf(" (");
+      if (open < 0) continue;
+      const team = part.slice(0, open);
+      const span = part.slice(open + 2).replace(")", "");
+      const [fromRaw, toRaw] = span.split("–");
+      const from = Number(fromRaw);
+      const to = Number(toRaw);
+      if (!Number.isFinite(from) || !Number.isFinite(to)) continue;
+      const e = m.get(team) ?? { team, from, to, drivers: new Set<string>() };
+      e.from = Math.min(e.from, from);
+      e.to = Math.max(e.to, to);
       e.drivers.add(d.name);
       m.set(team, e);
     }
