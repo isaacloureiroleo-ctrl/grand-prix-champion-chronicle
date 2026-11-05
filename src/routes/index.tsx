@@ -106,6 +106,7 @@ function Index() {
           {list.length === 0 && <li className="py-8 text-center text-muted-foreground">Nenhum resultado.</li>}
         </ul>
       </section>
+      <BrazilBadge />
     </main>
   );
 }

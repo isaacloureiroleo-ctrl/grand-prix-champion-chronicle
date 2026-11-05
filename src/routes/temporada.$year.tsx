@@ -127,6 +127,7 @@ function Season() {
           <Link to="/temporada/$year" params={{ year: String(next.year) }} className="hover:text-primary">{next.year} →</Link>
         ) : <span />}
       </nav>
+      <BrazilBadge />
     </main>
   );
 }
