@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrasilRouteImport } from './routes/brasil'
+import { Route as BrasilSlugRouteImport } from './routes/brasil_.$slug'
 import { Route as TemporadaYearRouteImport } from './routes/temporada.$year'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const BrasilRoute = BrasilRouteImport.update({
   path: '/brasil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrasilSlugRoute = BrasilSlugRouteImport.update({
+  id: '/brasil_/$slug',
+  path: '/brasil/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TemporadaYearRoute = TemporadaYearRouteImport.update({
   id: '/temporada/$year',
   path: '/temporada/$year',
@@ -32,30 +38,34 @@ const TemporadaYearRoute = TemporadaYearRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brasil': typeof BrasilRoute
+  '/brasil/$slug': typeof BrasilSlugRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brasil': typeof BrasilRoute
+  '/brasil/$slug': typeof BrasilSlugRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/brasil': typeof BrasilRoute
+  '/brasil_/$slug': typeof BrasilSlugRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/brasil' | '/temporada/$year'
+  fullPaths: '/' | '/brasil' | '/brasil/$slug' | '/temporada/$year'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/brasil' | '/temporada/$year'
-  id: '__root__' | '/' | '/brasil' | '/temporada/$year'
+  to: '/' | '/brasil' | '/brasil/$slug' | '/temporada/$year'
+  id: '__root__' | '/' | '/brasil' | '/brasil_/$slug' | '/temporada/$year'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrasilRoute: typeof BrasilRoute
+  BrasilSlugRoute: typeof BrasilSlugRoute
   TemporadaYearRoute: typeof TemporadaYearRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrasilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/brasil_/$slug': {
+      id: '/brasil_/$slug'
+      path: '/brasil/$slug'
+      fullPath: '/brasil/$slug'
+      preLoaderRoute: typeof BrasilSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/temporada/$year': {
       id: '/temporada/$year'
       path: '/temporada/$year'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrasilRoute: BrasilRoute,
+  BrasilSlugRoute: BrasilSlugRoute,
   TemporadaYearRoute: TemporadaYearRoute,
 }
 export const routeTree = rootRouteImport
