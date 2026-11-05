@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { champions, titleCounts } from "@/lib/champions";
+import { BrazilBadge } from "@/components/BrazilBadge";
 
 export const Route = createFileRoute("/")({
   head: () => ({
