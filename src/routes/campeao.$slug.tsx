@@ -9,8 +9,9 @@ export const Route = createFileRoute("/campeao/$slug")({
     const titles = champions
       .filter((c) => driverSlug(c.driver) === params.slug)
       .sort((a, b) => a.year - b.year);
-    if (!titles.length) throw notFound();
-    return { name: titles[0].driver, country: titles[0].country, titles };
+    const f = titles[0];
+    if (!f) throw notFound();
+    return { name: f.driver, country: f.country, titles };
   },
   head: ({ loaderData }) => {
     const n = loaderData?.name ?? "Campeão da F1";
