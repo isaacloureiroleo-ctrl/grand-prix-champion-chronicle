@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { champions } from "@/lib/champions";
 import { Standings, useStandings } from "@/components/Standings";
 import { useDriverPhoto } from "@/components/useDriverPhoto";
+import { BrazilBadge } from "@/components/BrazilBadge";
 import eraClassic from "@/assets/era-classic.jpg";
 import eraRetro from "@/assets/era-retro.jpg";
 import era2000s from "@/assets/era-2000s.jpg";
@@ -113,7 +114,7 @@ function Season() {
         </p>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 pb-12">
+      <section className="mx-auto max-w-5xl px-6 pb-12 pr-16">
         <h2 className="mb-6 font-display text-3xl">CLASSIFICAÇÃO FINAL</h2>
         <Standings year={c.year} />
       </section>
@@ -126,6 +127,7 @@ function Season() {
           <Link to="/temporada/$year" params={{ year: String(next.year) }} className="hover:text-primary">{next.year} →</Link>
         ) : <span />}
       </nav>
+      <BrazilBadge />
     </main>
   );
 }

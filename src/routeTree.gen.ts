@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BrasilRouteImport } from './routes/brasil'
 import { Route as TemporadaYearRouteImport } from './routes/temporada.$year'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrasilRoute = BrasilRouteImport.update({
+  id: '/brasil',
+  path: '/brasil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TemporadaYearRoute = TemporadaYearRouteImport.update({
@@ -25,27 +31,31 @@ const TemporadaYearRoute = TemporadaYearRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/brasil': typeof BrasilRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/brasil': typeof BrasilRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/brasil': typeof BrasilRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/temporada/$year'
+  fullPaths: '/' | '/brasil' | '/temporada/$year'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/temporada/$year'
-  id: '__root__' | '/' | '/temporada/$year'
+  to: '/' | '/brasil' | '/temporada/$year'
+  id: '__root__' | '/' | '/brasil' | '/temporada/$year'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrasilRoute: typeof BrasilRoute
   TemporadaYearRoute: typeof TemporadaYearRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brasil': {
+      id: '/brasil'
+      path: '/brasil'
+      fullPath: '/brasil'
+      preLoaderRoute: typeof BrasilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/temporada/$year': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrasilRoute: BrasilRoute,
   TemporadaYearRoute: TemporadaYearRoute,
 }
 export const routeTree = rootRouteImport

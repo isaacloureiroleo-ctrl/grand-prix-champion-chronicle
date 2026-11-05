@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { champions, titleCounts } from "@/lib/champions";
+import { BrazilBadge } from "@/components/BrazilBadge";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -73,7 +74,7 @@ function Index() {
         </div>
       </section>
 
-      <section id="anos" className="mx-auto max-w-6xl px-6 pb-20">
+      <section id="anos" className="mx-auto max-w-6xl px-6 pb-20 pr-16">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-3xl">TODOS OS ANOS</h2>
           <input
@@ -105,6 +106,7 @@ function Index() {
           {list.length === 0 && <li className="py-8 text-center text-muted-foreground">Nenhum resultado.</li>}
         </ul>
       </section>
+      <BrazilBadge />
     </main>
   );
 }
