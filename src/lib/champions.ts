@@ -77,7 +77,7 @@ const raw = `1950|Giuseppe Farina|Itália|Alfa Romeo
 2024|Max Verstappen|Holanda|Red Bull`;
 
 export const champions: Champion[] = raw.split("\n").map((l) => {
-  const [y, driver, country, team] = l.split("|");
+  const [y = "0", driver = "", country = "", team = ""] = l.split("|");
   return { year: +y, driver, country, team };
 });
 
