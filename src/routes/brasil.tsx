@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { brazilDrivers, brazilTeams, brazilTotals } from "@/lib/brazilians";
+import { brazilDrivers, brazilTeams, brazilTotals, driverSlug } from "@/lib/brazilians";
 
 export const Route = createFileRoute("/brasil")({
   head: () => ({
@@ -77,7 +77,7 @@ function Brazil() {
           {champs.map((d) => (
             <div key={d.name} className="rounded-sm border border-border bg-card p-5">
               <div className="font-display text-4xl text-primary">{d.titles.length}×</div>
-              <div className="mt-1 text-lg font-semibold">{d.name}</div>
+              <Link to="/brasil/$slug" params={{ slug: driverSlug(d.name) }} className="mt-1 block text-lg font-semibold hover:text-primary">{d.name} →</Link>
               <div className="text-xs text-muted-foreground">
                 {d.debut}–{d.last} · {d.wins} vitórias · {d.podiums} pódios
               </div>
@@ -127,7 +127,7 @@ function Brazil() {
               {list.map((d) => (
                 <tr key={d.name} className={d.titles.length ? "text-primary" : ""}>
                   <td className="px-3 py-3 align-top">
-                    <div className="font-semibold">{d.name}</div>
+                    <Link to="/brasil/$slug" params={{ slug: driverSlug(d.name) }} className="font-semibold underline-offset-4 hover:text-primary hover:underline">{d.name} →</Link>
                     <div className="text-xs text-muted-foreground">
                       {d.debut}–{d.last}
                       {d.titles.length ? ` · campeão ${d.titles.join(", ")}` : ""}
@@ -182,7 +182,7 @@ function Brazil() {
           <div className="mt-6 grid gap-3 md:grid-cols-3">
             {active.map((d) => (
               <div key={d.name} className="rounded-sm border border-primary/40 bg-card p-5">
-                <div className="text-lg font-semibold">{d.name}</div>
+                <Link to="/brasil/$slug" params={{ slug: driverSlug(d.name) }} className="text-lg font-semibold hover:text-primary">{d.name} →</Link>
                 <div className="text-sm text-muted-foreground">{d.teams}</div>
               </div>
             ))}
