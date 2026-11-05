@@ -78,3 +78,7 @@ export function brazilTeams() {
   }
   return [...m.values()].sort((a, b) => b.drivers.size - a.drivers.size || a.from - b.from);
 }
+
+export function driverSlug(name: string) {
+  return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
