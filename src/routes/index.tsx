@@ -1,7 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { champions, titleCounts } from "@/lib/champions";
-import { Standings } from "@/components/Standings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,7 +22,6 @@ function Index() {
     .filter((c) => `${c.year} ${c.driver} ${c.team} ${c.country}`.toLowerCase().includes(q.toLowerCase()))
     .reverse();
   const top = titleCounts().slice(0, 6);
-  const [open, setOpen] = useState<number | null>(null);
   const latest = champions[champions.length - 1]!;
 
   return (
@@ -88,8 +86,9 @@ function Index() {
         <ul className="mt-6 divide-y divide-border border-y border-border">
           {list.map((c) => (
             <li key={c.year}>
-              <button
-                onClick={() => setOpen(open === c.year ? null : c.year)}
+              <Link
+                to="/temporada/$year"
+                params={{ year: String(c.year) }}
                 className="grid w-full grid-cols-[4.5rem_1fr_1.5rem] items-center gap-4 py-4 text-left transition-colors hover:bg-card md:grid-cols-[6rem_1fr_12rem_10rem_1.5rem]"
               >
                 <span className="font-display text-3xl text-primary md:text-4xl">{c.year}</span>
@@ -99,13 +98,8 @@ function Index() {
                 </div>
                 <span className="hidden text-muted-foreground md:block">{c.team}</span>
                 <span className="hidden text-right text-sm text-muted-foreground md:block">{c.country}</span>
-                <span className="text-primary">{open === c.year ? "−" : "+"}</span>
-              </button>
-              {open === c.year && (
-                <div className="pb-6">
-                  <Standings year={c.year} />
-                </div>
-              )}
+                <span className="text-primary">→</span>
+              </Link>
             </li>
           ))}
           {list.length === 0 && <li className="py-8 text-center text-muted-foreground">Nenhum resultado.</li>}
