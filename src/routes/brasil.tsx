@@ -99,7 +99,7 @@ function Brazil() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-12">
+      <section className="mx-auto max-w-6xl px-6 pb-12 pr-16">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-3xl">TODOS OS PILOTOS</h2>
           <input
