@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { champions, titleCounts } from "@/lib/champions";
+import { Standings } from "@/components/Standings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,18 +23,42 @@ function Index() {
     .filter((c) => `${c.year} ${c.driver} ${c.team} ${c.country}`.toLowerCase().includes(q.toLowerCase()))
     .reverse();
   const top = titleCounts().slice(0, 6);
+  const [open, setOpen] = useState<number | null>(null);
+  const latest = champions[champions.length - 1]!;
 
   return (
     <main className="min-h-screen">
-      <header className="stripe border-b border-border px-6 py-16 md:py-24">
-        <div className="mx-auto max-w-6xl">
+      <header className="stripe relative overflow-hidden border-b border-border px-6 py-20 md:py-32">
+        <div className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 select-none font-display text-[16rem] leading-none text-primary/10 md:text-[24rem]">
+          F1
+        </div>
+        <div className="relative mx-auto max-w-6xl">
           <p className="font-display text-sm tracking-[0.3em] text-primary">FÓRMULA 1 · 1950 — 2024</p>
-          <h1 className="mt-3 font-display text-6xl leading-none md:text-8xl">
-            CAMPEÕES <span className="text-primary">DO MUNDO</span>
+          <h1 className="mt-3 font-display text-6xl leading-none md:text-9xl">
+            CAMPEÕES
+            <br />
+            <span className="text-primary">DO MUNDO</span>
           </h1>
-          <p className="mt-4 max-w-xl text-muted-foreground">
-            {champions.length} temporadas, {titleCounts().length} pilotos campeões. Cada título, ano a ano.
+          <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+            Mais de sete décadas de velocidade. Clique em qualquer temporada para ver a classificação completa daquele ano.
           </p>
+          <div className="mt-10 grid max-w-2xl grid-cols-3 gap-4 border-t border-border pt-6">
+            <div>
+              <div className="font-display text-4xl md:text-5xl">{champions.length}</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">Temporadas</div>
+            </div>
+            <div>
+              <div className="font-display text-4xl md:text-5xl">{titleCounts().length}</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">Campeões</div>
+            </div>
+            <div>
+              <div className="font-display text-4xl text-primary md:text-5xl">{latest.driver.split(" ").pop()}</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">Atual · {latest.year}</div>
+            </div>
+          </div>
+          <a href="#anos" className="mt-10 inline-block rounded-sm bg-primary px-6 py-3 font-display tracking-wider text-primary-foreground">
+            VER TODOS OS ANOS →
+          </a>
         </div>
       </header>
 
@@ -50,7 +75,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-20">
+      <section id="anos" className="mx-auto max-w-6xl px-6 pb-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-3xl">TODOS OS ANOS</h2>
           <input
@@ -62,14 +87,25 @@ function Index() {
         </div>
         <ul className="mt-6 divide-y divide-border border-y border-border">
           {list.map((c) => (
-            <li key={c.year} className="group grid grid-cols-[4.5rem_1fr] items-center gap-4 py-4 transition-colors hover:bg-card md:grid-cols-[6rem_1fr_12rem_10rem]">
-              <span className="font-display text-3xl text-primary md:text-4xl">{c.year}</span>
-              <div>
-                <div className="font-semibold">{c.driver}</div>
-                <div className="text-xs text-muted-foreground md:hidden">{c.team} · {c.country}</div>
-              </div>
-              <span className="hidden text-muted-foreground md:block">{c.team}</span>
-              <span className="hidden text-right text-sm text-muted-foreground md:block">{c.country}</span>
+            <li key={c.year}>
+              <button
+                onClick={() => setOpen(open === c.year ? null : c.year)}
+                className="grid w-full grid-cols-[4.5rem_1fr_1.5rem] items-center gap-4 py-4 text-left transition-colors hover:bg-card md:grid-cols-[6rem_1fr_12rem_10rem_1.5rem]"
+              >
+                <span className="font-display text-3xl text-primary md:text-4xl">{c.year}</span>
+                <div>
+                  <div className="font-semibold">{c.driver}</div>
+                  <div className="text-xs text-muted-foreground md:hidden">{c.team} · {c.country}</div>
+                </div>
+                <span className="hidden text-muted-foreground md:block">{c.team}</span>
+                <span className="hidden text-right text-sm text-muted-foreground md:block">{c.country}</span>
+                <span className="text-primary">{open === c.year ? "−" : "+"}</span>
+              </button>
+              {open === c.year && (
+                <div className="pb-6">
+                  <Standings year={c.year} />
+                </div>
+              )}
             </li>
           ))}
           {list.length === 0 && <li className="py-8 text-center text-muted-foreground">Nenhum resultado.</li>}
