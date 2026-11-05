@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrasilRouteImport } from './routes/brasil'
 import { Route as BrasilSlugRouteImport } from './routes/brasil_.$slug'
+import { Route as CampeaoSlugRouteImport } from './routes/campeao.$slug'
 import { Route as TemporadaYearRouteImport } from './routes/temporada.$year'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const BrasilSlugRoute = BrasilSlugRouteImport.update({
   path: '/brasil/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampeaoSlugRoute = CampeaoSlugRouteImport.update({
+  id: '/campeao/$slug',
+  path: '/campeao/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TemporadaYearRoute = TemporadaYearRouteImport.update({
   id: '/temporada/$year',
   path: '/temporada/$year',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brasil': typeof BrasilRoute
   '/brasil/$slug': typeof BrasilSlugRoute
+  '/campeao/$slug': typeof CampeaoSlugRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brasil': typeof BrasilRoute
   '/brasil/$slug': typeof BrasilSlugRoute
+  '/campeao/$slug': typeof CampeaoSlugRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,29 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/brasil': typeof BrasilRoute
   '/brasil_/$slug': typeof BrasilSlugRoute
+  '/campeao/$slug': typeof CampeaoSlugRoute
   '/temporada/$year': typeof TemporadaYearRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/brasil' | '/brasil/$slug' | '/temporada/$year'
+  fullPaths:
+    '/' | '/brasil' | '/brasil/$slug' | '/campeao/$slug' | '/temporada/$year'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/brasil' | '/brasil/$slug' | '/temporada/$year'
-  id: '__root__' | '/' | '/brasil' | '/brasil_/$slug' | '/temporada/$year'
+  to: '/' | '/brasil' | '/brasil/$slug' | '/campeao/$slug' | '/temporada/$year'
+  id:
+    | '__root__'
+    | '/'
+    | '/brasil'
+    | '/brasil_/$slug'
+    | '/campeao/$slug'
+    | '/temporada/$year'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrasilRoute: typeof BrasilRoute
   BrasilSlugRoute: typeof BrasilSlugRoute
+  CampeaoSlugRoute: typeof CampeaoSlugRoute
   TemporadaYearRoute: typeof TemporadaYearRoute
 }
 
@@ -92,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrasilSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campeao/$slug': {
+      id: '/campeao/$slug'
+      path: '/campeao/$slug'
+      fullPath: '/campeao/$slug'
+      preLoaderRoute: typeof CampeaoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/temporada/$year': {
       id: '/temporada/$year'
       path: '/temporada/$year'
@@ -106,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrasilRoute: BrasilRoute,
   BrasilSlugRoute: BrasilSlugRoute,
+  CampeaoSlugRoute: CampeaoSlugRoute,
   TemporadaYearRoute: TemporadaYearRoute,
 }
 export const routeTree = rootRouteImport
