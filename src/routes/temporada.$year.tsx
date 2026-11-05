@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { champions } from "@/lib/champions";
 import { Standings, useStandings } from "@/components/Standings";
+import { useDriverPhoto } from "@/components/useDriverPhoto";
 import eraClassic from "@/assets/era-classic.jpg";
 import eraRetro from "@/assets/era-retro.jpg";
 import era2000s from "@/assets/era-2000s.jpg";
@@ -47,6 +48,7 @@ function Season() {
   const prev = champions.find((x) => x.year === c.year - 1);
   const next = champions.find((x) => x.year === c.year + 1);
   const { rows } = useStandings(c.year);
+  const photo = useDriverPhoto(c.driver);
   const champ = rows?.[0];
   const vice = rows?.[1];
   const third = rows?.[2];
@@ -70,9 +72,15 @@ function Season() {
 
       <section className="mx-auto max-w-5xl px-6 pt-12">
         <figure className="overflow-hidden rounded-sm border border-border">
-          <img src={img} alt={`Celebração do título de ${c.year}`} width={1600} height={912} className="aspect-[16/8] w-full object-cover" />
+          {photo ? (
+            <img src={photo} alt={c.driver} className="mx-auto max-h-[36rem] w-full bg-card object-contain" />
+          ) : (
+            <img src={img} alt={`Celebração do título de ${c.year}`} width={1600} height={912} className="aspect-[16/8] w-full object-cover" />
+          )}
         </figure>
-        <figcaption className="mt-2 text-xs text-muted-foreground">Ilustração da celebração · não é uma foto real</figcaption>
+        <figcaption className="mt-2 text-xs text-muted-foreground">
+          {photo ? `${c.driver} · foto: Wikipédia / Wikimedia Commons` : "Ilustração · foto real indisponível"}
+        </figcaption>
       </section>
 
       <section className="mx-auto max-w-5xl px-6 py-12">
