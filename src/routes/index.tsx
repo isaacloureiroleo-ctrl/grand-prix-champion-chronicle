@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { champions, titleCounts } from "@/lib/champions";
+import { driverSlug } from "@/lib/brazilians";
 import { BrazilBadge } from "@/components/BrazilBadge";
 
 export const Route = createFileRoute("/")({
@@ -65,11 +66,19 @@ function Index() {
         <h2 className="font-display text-3xl">MAIORES CAMPEÕES</h2>
         <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-6">
           {top.map(([name, n], i) => (
-            <div key={name} className="rounded-sm border border-border bg-card p-4">
+            <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }} className="rounded-sm border border-border bg-card p-4 transition-colors hover:border-primary">
               <div className="font-display text-5xl text-primary">{n}</div>
               <div className="text-sm font-semibold">{name}</div>
-              <div className="text-xs text-muted-foreground">#{i + 1} em títulos</div>
-            </div>
+              <div className="text-xs text-muted-foreground">#{i + 1} em títulos · ver perfil →</div>
+            </Link>
+          ))}
+        </div>
+        <h3 className="mt-10 font-display text-2xl">TODOS OS CAMPEÕES</h3>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {titleCounts().map(([name, n]) => (
+            <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }} className="rounded-sm border border-border bg-card px-3 py-2 text-sm hover:border-primary hover:text-primary">
+              <span className="font-semibold">{name}</span> <span className="text-muted-foreground">{n}×</span>
+            </Link>
           ))}
         </div>
       </section>

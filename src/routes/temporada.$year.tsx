@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { champions } from "@/lib/champions";
 import { Standings, useStandings } from "@/components/Standings";
+import { driverSlug } from "@/lib/brazilians";
 import { useDriverPhoto } from "@/components/useDriverPhoto";
 import { BrazilBadge } from "@/components/BrazilBadge";
 import eraClassic from "@/assets/era-classic.jpg";
@@ -64,7 +65,7 @@ function Season() {
         <div className="relative mx-auto max-w-5xl">
           <Link to="/" className="text-sm text-muted-foreground hover:text-primary">← Todos os campeões</Link>
           <p className="mt-6 font-display text-sm tracking-[0.3em] text-primary">TEMPORADA {c.year}</p>
-          <h1 className="mt-2 font-display text-5xl leading-none md:text-8xl">{c.driver.toUpperCase()}</h1>
+          <h1 className="mt-2 font-display text-5xl leading-none md:text-8xl"><Link to="/campeao/$slug" params={{ slug: driverSlug(c.driver) }} className="hover:text-primary">{c.driver.toUpperCase()}</Link></h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Campeão mundial pela {c.team} · {c.country}
           </p>
