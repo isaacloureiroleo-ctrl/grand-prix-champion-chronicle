@@ -1,6 +1,19 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { champions } from "@/lib/champions";
-import { Standings } from "@/components/Standings";
+import { Standings, useStandings } from "@/components/Standings";
+import eraClassic from "@/assets/era-classic.jpg";
+import eraRetro from "@/assets/era-retro.jpg";
+import era2000s from "@/assets/era-2000s.jpg";
+import eraModern from "@/assets/era-modern.jpg";
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-sm border border-border bg-card p-4">
+      <div className="font-display text-4xl text-primary">{value}</div>
+      <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/temporada/$year")({
   loader: ({ params }) => {
@@ -33,6 +46,11 @@ function Season() {
   const nth = titles.findIndex((x) => x.year === c.year) + 1;
   const prev = champions.find((x) => x.year === c.year - 1);
   const next = champions.find((x) => x.year === c.year + 1);
+  const { rows } = useStandings(c.year);
+  const champ = rows?.[0];
+  const vice = rows?.[1];
+  const third = rows?.[2];
+  const img = c.year < 1970 ? eraClassic : c.year < 1990 ? eraRetro : c.year < 2010 ? era2000s : eraModern;
 
   return (
     <main className="min-h-screen">
@@ -50,8 +68,33 @@ function Season() {
         </div>
       </header>
 
+      <section className="mx-auto max-w-5xl px-6 pt-12">
+        <figure className="overflow-hidden rounded-sm border border-border">
+          <img src={img} alt={`Celebração do título de ${c.year}`} width={1600} height={912} className="aspect-[16/8] w-full object-cover" />
+        </figure>
+        <figcaption className="mt-2 text-xs text-muted-foreground">Ilustração da celebração · não é uma foto real</figcaption>
+      </section>
+
       <section className="mx-auto max-w-5xl px-6 py-12">
         <h2 className="font-display text-3xl">COMO FOI O CAMPEONATO</h2>
+        {champ && (
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            <Stat label="Pontos do campeão" value={champ.points} />
+            <Stat label="Vitórias" value={champ.wins} />
+            <Stat label="Vantagem p/ 2º" value={vice ? `${+(Number(champ.points) - Number(vice.points)).toFixed(1)}` : "—"} />
+          </div>
+        )}
+        {champ && vice && (
+          <p className="mt-6 max-w-3xl leading-relaxed">
+            {c.driver} terminou {c.year} com {champ.points} pontos e {champ.wins} vitória{champ.wins === "1" ? "" : "s"}.
+            {Number(champ.points) - Number(vice.points) <= 5
+              ? ` Foi uma disputa apertadíssima: ${vice.name} ficou a apenas ${+(Number(champ.points) - Number(vice.points)).toFixed(1)} ponto(s) do título.`
+              : Number(champ.points) - Number(vice.points) >= 40
+                ? ` Foi uma temporada de domínio, com larga vantagem sobre o vice ${vice.name}.`
+                : ` O vice-campeão foi ${vice.name}, ${+(Number(champ.points) - Number(vice.points)).toFixed(1)} pontos atrás.`}
+            {third && ` ${third.name} completou o pódio do campeonato.`}
+          </p>
+        )}
         <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">
           Em {c.year}, {c.driver} ({c.country}) conquistou o título mundial de pilotos correndo pela {c.team}.
           {titles.length === 1
