@@ -4,7 +4,7 @@ type Row = { position: string; points: string; wins: string; name: string; team:
 
 const cache = new Map<number, Row[]>();
 
-export function Standings({ year }: { year: number }) {
+export function useStandings(year: number) {
   const [rows, setRows] = useState<Row[] | null>(cache.get(year) ?? null);
   const [err, setErr] = useState(false);
 
@@ -26,6 +26,11 @@ export function Standings({ year }: { year: number }) {
       })
       .catch(() => setErr(true));
   }, [year]);
+  return { rows, err };
+}
+
+export function Standings({ year }: { year: number }) {
+  const { rows, err } = useStandings(year);
 
   if (err) return <p className="py-4 text-sm text-muted-foreground">Não foi possível carregar a tabela.</p>;
   if (!rows) return <p className="py-4 text-sm text-muted-foreground">Carregando classificação de {year}…</p>;
