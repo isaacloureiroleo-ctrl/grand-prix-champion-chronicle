@@ -61,10 +61,16 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-brazil-green: var(--brazil-green);
+  --color-brazil-yellow: var(--brazil-yellow);
+  --color-brazil-blue: var(--brazil-blue);
 }
 
 :root {
   --radius: 0.25rem;
+  --brazil-green: oklch(0.62 0.16 145);
+  --brazil-yellow: oklch(0.85 0.16 95);
+  --brazil-blue: oklch(0.48 0.14 250);
   --background: oklch(0.14 0.005 260);
   --foreground: oklch(0.96 0 0);
   --card: oklch(0.19 0.006 260);
