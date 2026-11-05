@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { champions, titleCounts } from "@/lib/champions";
 import { driverSlug } from "@/lib/brazilians";
+import { ChampionStats } from "@/components/ChampionStats";
+import { championStats } from "@/lib/championStats";
 import { BrazilBadge } from "@/components/BrazilBadge";
 
 export const Route = createFileRoute("/")({
@@ -74,12 +76,22 @@ function Index() {
           ))}
         </div>
         <h3 className="mt-10 font-display text-2xl">TODOS OS CAMPEÕES</h3>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {titleCounts().map(([name, n]) => (
-            <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }} className="rounded-sm border border-border bg-card px-3 py-2 text-sm hover:border-primary hover:text-primary">
-              <span className="font-semibold">{name}</span> <span className="text-muted-foreground">{n}×</span>
-            </Link>
-          ))}
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          {titleCounts().map(([name, n]) => {
+            const c = champions.find((x) => x.driver === name);
+            const st = championStats[name];
+            return (
+              <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }}
+                className="group relative flex aspect-square flex-col justify-between overflow-hidden rounded-sm border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-primary">
+                <span className="pointer-events-none absolute -bottom-4 -right-1 font-display text-8xl leading-none text-primary/10 group-hover:text-primary/25">{n}</span>
+                <span className="font-display text-4xl text-primary">{n}×</span>
+                <span className="relative">
+                  <span className="block font-semibold leading-tight">{name}</span>
+                  <span className="block text-xs text-muted-foreground">{c?.country}{st ? ` · ${st.wins} vitórias` : ""}</span>
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
@@ -115,6 +127,7 @@ function Index() {
           {list.length === 0 && <li className="py-8 text-center text-muted-foreground">Nenhum resultado.</li>}
         </ul>
       </section>
+      <ChampionStats />
       <BrazilBadge />
     </main>
   );
