@@ -86,7 +86,7 @@ function Index() {
               <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }}
                 style={{ background: teamColorVar(team) }}
                 className="group relative flex aspect-square flex-col items-center justify-between overflow-hidden rounded-sm border border-border p-3 text-center transition-all hover:-translate-y-1 hover:border-primary">
-                <span className="relative rounded-sm bg-background/70 px-2 font-display text-2xl text-foreground">{n}× · {team}</span>
+                <span className="relative rounded-sm bg-background/70 px-2 font-display text-2xl text-foreground">{n} {n > 1 ? "TÍTULOS" : "TÍTULO"}</span>
                 {teamLogos[team] ? (
                   <img src={teamLogos[team]} alt={team} title={team} loading="lazy" className="relative h-16 w-24 rounded-md bg-foreground object-contain p-2 shadow-lg transition-transform group-hover:scale-110" />
                 ) : (
