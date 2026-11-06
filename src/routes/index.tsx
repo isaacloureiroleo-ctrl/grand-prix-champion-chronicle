@@ -5,7 +5,7 @@ import { driverSlug } from "@/lib/brazilians";
 import { ChampionStats } from "@/components/ChampionStats";
 import { championStats } from "@/lib/championStats";
 import { BrazilBadge } from "@/components/BrazilBadge";
-import { teamLogos, titleTeams } from "@/lib/teamLogos";
+import { teamLogos, bestTeam, teamColorVar } from "@/lib/teamLogos";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -81,23 +81,18 @@ function Index() {
           {titleCounts().map(([name, n]) => {
             const c = champions.find((x) => x.driver === name);
             const st = championStats[name];
+            const team = bestTeam(champions.filter((x) => x.driver === name).map((x) => x.team));
             return (
               <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }}
-                className="group relative flex aspect-square flex-col justify-between overflow-hidden rounded-sm border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-primary">
-                <span className="pointer-events-none absolute -bottom-4 -right-1 font-display text-8xl leading-none text-primary/10 group-hover:text-primary/25">{n}</span>
-                <span className="relative flex items-start justify-between gap-2">
-                  <span className="font-display text-4xl text-primary">{n}×</span>
-                  <span className="flex flex-wrap justify-end gap-1">
-                    {titleTeams(champions.filter((x) => x.driver === name).map((x) => x.team)).map((t) =>
-                      teamLogos[t] ? (
-                        <img key={t} src={teamLogos[t]} alt={t} title={t} loading="lazy" className="h-7 w-10 rounded-sm bg-foreground/90 object-contain p-0.5" />
-                      ) : (
-                        <span key={t} title={t} className="rounded-sm border border-border px-1 text-[10px] font-semibold uppercase leading-7">{t}</span>
-                      ),
-                    )}
-                  </span>
-                </span>
-                <span className="relative">
+                style={{ background: teamColorVar(team) }}
+                className="group relative flex aspect-square flex-col items-center justify-between overflow-hidden rounded-sm border border-border p-3 text-center transition-all hover:-translate-y-1 hover:border-primary">
+                <span className="relative rounded-sm bg-background/70 px-2 font-display text-2xl text-foreground">{n}× · {team}</span>
+                {teamLogos[team] ? (
+                  <img src={teamLogos[team]} alt={team} title={team} loading="lazy" className="relative h-16 w-24 rounded-md bg-foreground object-contain p-2 shadow-lg transition-transform group-hover:scale-110" />
+                ) : (
+                  <span className="relative font-display text-4xl text-foreground drop-shadow">{team.toUpperCase()}</span>
+                )}
+                <span className="relative w-full rounded-sm bg-background/75 px-2 py-1">
                   <span className="block font-semibold leading-tight">{name}</span>
                   <span className="block text-xs text-muted-foreground">{c?.country}{st ? ` · ${st.wins} vitórias` : ""}</span>
                 </span>

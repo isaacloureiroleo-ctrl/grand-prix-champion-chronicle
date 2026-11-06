@@ -16,6 +16,17 @@ export const teamLogos: Record<string, string> = {
   "Red Bull": W + "en/f/fa/Red_Bull_Racing_Logo_2026.svg",
 };
 
+export const teamColorVar = (team: string) => `var(--team-${team.toLowerCase().replace(/\s+/g, "-")})`;
+
+/** Equipe com mais títulos do piloto; empate fica com a do título mais recente. */
+export function bestTeam(teamsOfTitles: string[]) {
+  const m = new Map<string, number>();
+  teamsOfTitles.forEach((t) => t.split(" / ").forEach((x) => m.set(x, (m.get(x) ?? 0) + 1)));
+  let best = "", n = 0;
+  teamsOfTitles.forEach((t) => t.split(" / ").forEach((x) => { if ((m.get(x) ?? 0) >= n) { n = m.get(x)!; best = x; } }));
+  return best;
+}
+
 export function titleTeams(teamsOfTitles: string[]) {
   const out: string[] = [];
   teamsOfTitles.forEach((t) => t.split(" / ").forEach((x) => !out.includes(x) && out.push(x)));
