@@ -86,15 +86,15 @@ function Index() {
               <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }}
                 style={{ background: teamColorVar(team) }}
                 className="group relative flex aspect-square flex-col items-center justify-between overflow-hidden rounded-sm border border-border p-3 text-center transition-all hover:-translate-y-1 hover:border-primary">
-                <span className="relative rounded-sm bg-background/70 px-2 font-display text-2xl text-foreground">{n} {n > 1 ? "TÍTULOS" : "TÍTULO"}</span>
+                <span className="relative font-display text-lg tracking-wider text-foreground [text-shadow:0_1px_4px_rgb(0_0_0/0.8)]">{n} {n > 1 ? "TÍTULOS" : "TÍTULO"}</span>
                 {teamLogos[team] ? (
                   <img src={teamLogos[team]} alt={team} title={team} loading="lazy" className="relative my-2 min-h-0 w-[80%] flex-1 object-contain drop-shadow-[0_4px_8px_rgb(0_0_0/0.5)] transition-transform group-hover:scale-110" />
                 ) : (
                   <span className="relative font-display text-4xl text-foreground drop-shadow">{team.toUpperCase()}</span>
                 )}
-                <span className="relative w-full rounded-sm bg-background/75 px-2 py-1">
-                  <span className="block font-semibold leading-tight">{name}</span>
-                  <span className="block text-xs text-muted-foreground">{c?.country}{st ? ` · ${st.wins} vitórias` : ""}</span>
+                <span className="relative w-full [text-shadow:0_1px_4px_rgb(0_0_0/0.8)]">
+                  <span className="block text-xs font-semibold leading-tight text-foreground">{name}</span>
+                  <span className="block text-[10px] text-foreground/80">{c?.country}{st ? ` · ${st.wins} vitórias` : ""}</span>
                 </span>
               </Link>
             );
