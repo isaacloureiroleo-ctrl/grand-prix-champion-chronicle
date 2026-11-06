@@ -5,6 +5,7 @@ import { driverSlug } from "@/lib/brazilians";
 import { ChampionStats } from "@/components/ChampionStats";
 import { championStats } from "@/lib/championStats";
 import { BrazilBadge } from "@/components/BrazilBadge";
+import { teamLogos, titleTeams } from "@/lib/teamLogos";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -84,7 +85,18 @@ function Index() {
               <Link key={name} to="/campeao/$slug" params={{ slug: driverSlug(name) }}
                 className="group relative flex aspect-square flex-col justify-between overflow-hidden rounded-sm border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-primary">
                 <span className="pointer-events-none absolute -bottom-4 -right-1 font-display text-8xl leading-none text-primary/10 group-hover:text-primary/25">{n}</span>
-                <span className="font-display text-4xl text-primary">{n}×</span>
+                <span className="relative flex items-start justify-between gap-2">
+                  <span className="font-display text-4xl text-primary">{n}×</span>
+                  <span className="flex flex-wrap justify-end gap-1">
+                    {titleTeams(champions.filter((x) => x.driver === name).map((x) => x.team)).map((t) =>
+                      teamLogos[t] ? (
+                        <img key={t} src={teamLogos[t]} alt={t} title={t} loading="lazy" className="h-7 w-10 rounded-sm bg-foreground/90 object-contain p-0.5" />
+                      ) : (
+                        <span key={t} title={t} className="rounded-sm border border-border px-1 text-[10px] font-semibold uppercase leading-7">{t}</span>
+                      ),
+                    )}
+                  </span>
+                </span>
                 <span className="relative">
                   <span className="block font-semibold leading-tight">{name}</span>
                   <span className="block text-xs text-muted-foreground">{c?.country}{st ? ` · ${st.wins} vitórias` : ""}</span>
