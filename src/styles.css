@@ -175,3 +175,8 @@
 .stripe {
   background-image: repeating-linear-gradient(135deg, transparent 0 40px, color-mix(in oklab, var(--primary) 8%, transparent) 40px 42px);
 }
+
+.circuit-map {
+  --map-surface: oklch(0.97 0 0);
+  background: var(--map-surface);
+}

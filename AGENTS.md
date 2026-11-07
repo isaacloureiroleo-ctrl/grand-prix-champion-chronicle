@@ -32,3 +32,4 @@ use the editor.
 ## Project rules
 
 - F1 statistics come from the Ergast mirror (`api.jolpi.ca/ergast/...`). Curated lists (champions, Brazilian drivers) are baked into `src/lib/*.ts` at build time instead of being fetched at runtime, so the pages stay fast and the numbers stay auditable; re-run the collection against the API when a season ends.
+- Circuit pages use a collected, sourced catalog with CDN asset pointers; distinguish same-layout race records from fastest laps of individual races because historical layouts are not interchangeable.
