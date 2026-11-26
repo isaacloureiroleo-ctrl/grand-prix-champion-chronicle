@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TracksTab } from "@/components/TracksTab";
+import { Season2026FloatingTable } from "@/components/Season2026FloatingTable";
 
 function NotFoundComponent() {
   return (
@@ -121,6 +122,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <TracksTab />
+      <Season2026FloatingTable />
     </QueryClientProvider>
   );
 }
